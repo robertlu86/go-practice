@@ -2,26 +2,31 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 // helloHandler 會處理傳送到 "/" 路徑的請求。
-func helloHandler(w http.ResponseWriter, r *http.Request) {
+func helloHandler(c *gin.Context) {
 	// 將 "Hello, World!" 字串寫入回應中。
-	fmt.Fprint(w, "Hello, World!")
+	c.String(http.StatusOK, "Hello, World!")
 }
 
 func main() {
-	// 將根路徑 ("/") 的所有請求都交給 helloHandler 處理。
-	http.HandleFunc("/", helloHandler)
+	// 建立一個預設的 Gin router，它已經包含了 Logger 和 Recovery middleware。
+	r := gin.Default()
 
-	// 在終端機顯示伺服器正在啟動的訊息。
-	fmt.Println("伺服器即將在 http://localhost:5500 上啟動")
+	// 將根路徑 ("/") 的所有請求都交給 helloHandler 處理。
+	r.GET("/", helloHandler)
+
+	// 在終端機顯示類似 Flask 的啟動訊息
+	fmt.Println(" * Serving Flask app 'main'")
+	fmt.Println(" * Debug mode: on")
+	fmt.Println("WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.")
+	fmt.Println(" * Running on http://127.0.0.1:5500")
+	fmt.Println("Press CTRL+C to quit")
 
 	// 啟動伺服器並監聽 5500 連接埠。
-	// 如果啟動失敗（例如連接埠已被佔用），程式會記錄錯誤並退出。
-	if err := http.ListenAndServe(":5500", nil); err != nil {
-		log.Fatal("ListenAndServe: ", err)
-	}
+	r.Run("0.0.0.0:5500")
 }
