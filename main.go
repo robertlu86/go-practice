@@ -26,9 +26,8 @@ func main() {
 	fmt.Println("WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.")
 	fmt.Println(" * Running on http://127.0.0.1:5500")
 	fmt.Println("Press CTRL+C to quit")
-	fmt.Println("PR Test1")
-	fmt.Println("PR Test2")
-	fmt.Println("PR Test3")
+	fmt.Println("GitHub issue連結PR測試")
+
 	// 啟動伺服器並監聽 5500 連接埠。
 	r.Run("0.0.0.0:5500")
 }
